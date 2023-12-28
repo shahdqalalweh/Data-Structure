@@ -1,0 +1,16 @@
+
+public class StoreNode {
+	StoreLinkedList store;
+	StoreNode next;
+	private int id;
+	public StoreNode() {
+		
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+}

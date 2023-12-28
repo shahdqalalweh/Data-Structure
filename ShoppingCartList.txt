@@ -1,0 +1,110 @@
+
+public class ShoppingCartList {
+	private int size;
+	ItemNode head;
+	ItemNode tail;
+	MainLinkedList mall;
+	
+	public ShoppingCartList(MainLinkedList mall) {
+		this.mall=mall;
+		mall.cart=this;
+	}
+	
+	public double eval() {
+		double calc=0;
+		while(head!=null) {
+			calc+=(head.getPrice()* head.getQuantity());
+			head=head.next;
+		}
+		head=tail=null;
+		return calc;
+	}
+
+	public void addItem(ItemNode item,int k) {
+		ItemNode temp=mall.search(item.getName(), item.getID());
+		if(temp!=null) {
+			ItemNode a=new ItemNode();
+			a.setID(temp.getID());
+			a.setName(temp.getName());
+			a.setNext(null);
+			a.setPrice(temp.getPrice());
+			a.setQuantity(k);
+			a.setStoreNum(temp.getStoreNum());
+			if(temp.getQuantity()>=k) {
+				if(head==tail && tail==null) {
+					head=tail=a;
+					size=1;
+					tail.setQuantity(k);
+					temp.setQuantity(temp.getQuantity()-k);
+					return;
+				}
+				else {
+					ItemNode cur=head;
+					while(cur!=null) {
+						if(cur.getName()==item.getName() && cur.getID()==item.getID()) {
+							cur.setQuantity(cur.getQuantity()+k);
+							temp.setQuantity(temp.getQuantity()-k);
+							return;
+							}
+						cur=cur.next;
+					}
+					tail.next=a;
+					tail=a;
+					size++;
+					tail.setQuantity(k);
+					temp.setQuantity(temp.getQuantity()-k);
+					return;
+				}
+				
+			}
+			else
+			System.out.println("can't add " + item.getName() + " to your cart, The required quantity is not available" );
+			
+		}
+		else
+		System.out.println("can't add " + item.getName() + " to your cart, Can't find it!" );
+		return;
+			
+	}
+	
+    public void returnItem(String itemName,int Quantity) {
+		ItemNode cur=head;
+		while(cur!=null) {
+			if(cur.getName().equals(itemName)) {
+				if(cur.getQuantity()<Quantity) {
+					System.out.println("can't return " + itemName + " from your cart, The required quantity is not available" );
+					return;
+				}
+				ItemNode temp=mall.search(cur.getName(), cur.getID());
+				temp.setQuantity(temp.getQuantity()+ Quantity);
+				cur.setQuantity(cur.getQuantity()-Quantity);
+				return;
+			}
+			
+			cur=cur.next;
+		}
+		System.out.println("can't return " + itemName + " from your cart, Can't find it!" );
+	}
+	@Override
+	public String toString() {
+		String str="";
+		if(head==null)
+		str="Sorry! There is Nothing in your cart!";
+		ItemNode cur=head;
+		while(cur!=null) {
+			str+=cur.toString() +"\n";			
+			cur=cur.next;
+		}
+		
+		return str;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+}

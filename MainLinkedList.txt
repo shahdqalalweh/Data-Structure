@@ -1,0 +1,111 @@
+
+public class MainLinkedList {
+	private int size;
+	StoreNode head;
+	StoreNode tail;
+	ShoppingCartList cart;
+	
+	public MainLinkedList() {
+	
+	}
+	
+	public void Add(int Storenum,ItemNode i) {
+		if(head==tail &&tail==null) {
+			size=1;
+			StoreNode temp=new StoreNode();
+			StoreLinkedList st=new StoreLinkedList();
+			temp.store=st;
+			temp.store.AddItem(i);
+			temp.setId(Storenum);
+			head=tail=temp;
+		}
+		else {
+			if(this.search(i.getName(), i.getID())==i) {
+				i.setQuantity(i.getQuantity()*2);
+			}
+			else {
+			StoreNode cur=head;
+			while(cur!=null) {
+				if(Storenum==cur.getId()) {
+					cur.store.AddItem(i);
+					return;
+				}
+				cur=cur.next;
+			}
+			StoreNode temp=new StoreNode();
+			StoreLinkedList st=new StoreLinkedList();
+			temp.setId(Storenum);
+			temp.store=st;
+			temp.store.AddItem(i);
+			tail.next=temp;
+			tail=temp;
+			size++;
+			return;
+		}
+		}
+	}
+	public void searchItem(String name,String id) {
+		StoreNode cur=head;
+		
+		while(cur!=null) {
+			ItemNode x=cur.store.find(name,id);
+			if(x!=null) {
+				System.out.println("The Store ID " + x.getStoreNum() + " , The available amount of the Item " + x.getQuantity());
+				return ;
+			}
+			
+			cur=cur.next;
+		}
+		System.out.println("Can't find your Item !");
+	}
+	@Override
+	public String toString() {
+		String str="";
+		StoreNode cur=head;
+		while(cur!=null) {
+			str+=cur.store.toString() + " \n";
+			cur=cur.next;
+		}
+		
+		return str;
+	}
+
+	public ItemNode search(String name, String id) {
+        StoreNode cur=head;
+		
+		while(cur!=null) {
+			ItemNode x=cur.store.find(name,id);
+			if(x!=null) {
+				return x;
+			}
+			
+			cur=cur.next;
+		}
+		return null;
+	}
+	
+    public double purchase() {
+		return this.cart.eval();
+	}
+
+    
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public StoreNode searchstore(int stnum) {
+		StoreNode cur=head;
+		while(cur!=null) {
+			if(cur.getId()==stnum)
+				return cur;
+			cur=cur.next;
+		}
+		return null;
+	}
+
+
+}

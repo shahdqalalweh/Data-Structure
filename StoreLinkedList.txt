@@ -1,0 +1,108 @@
+
+public class StoreLinkedList {
+	private int size;
+	ItemNode head;
+	ItemNode tail;
+	
+	
+	public StoreLinkedList() {
+		
+	}
+	
+	
+	public void AddItem(ItemNode item) {
+		if(head==tail && tail==null) {
+			head=tail=item;
+			size=1;
+		}
+		else {
+			if(head.getName().compareTo(item.getName())>0 ) {
+				item.next=head;
+				head=item;
+				size++;
+			}else {
+			ItemNode cur=head;
+			while(cur!=null) {
+				if(cur.getName().compareTo(item.getName())<=0 ) {
+					item.next=cur.next;
+					cur.next=item;
+					size++;
+					break;
+				}
+				cur=cur.next;
+			}
+			}
+			ItemNode c=head;
+			while(c.next!=null)
+				c=c.next;
+			tail=c;
+		}	
+	}
+	public boolean deleteItem(String id) {
+		if(head.getID().equals(id)) {
+			head=head.next;
+			return true;
+		}
+		else if(tail.getID().equals(id)) {
+			ItemNode cur=head;
+			while(cur.next.next!=null)
+				cur=cur.next;
+			tail=cur;
+			tail.next=null;
+			return true;
+		}
+		else {
+		ItemNode cur=head;
+		while(cur.next!=null) {
+			if(cur.getID().equals(id)) {
+				cur.next=cur.next.next;
+				return true;
+			}
+			cur=cur.next;
+		}
+		
+		System.out.println("Can't remove !");
+		return false;
+		}
+		
+	}
+	
+	
+	
+    @Override
+	public String toString() {
+		String str="";
+		ItemNode cur=head;
+		while(cur!=null) {
+			str+=cur.toString() +"\n";	
+			cur=cur.next;
+		}
+		
+		return str;
+	}
+    
+    
+	public ItemNode find(String name, String id) {
+		ItemNode cur=head;
+		while(cur!=null) {
+			if(cur.getName().equals(name) && cur.getID().equals(id))
+				return cur;
+			
+			cur=cur.next;
+		}
+		return null;
+	}
+	
+	
+
+	public int getSize() {
+		return size;
+	}
+
+
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+}

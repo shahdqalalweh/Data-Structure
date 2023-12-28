@@ -1,0 +1,91 @@
+import java.util.*;
+
+public class Test {
+
+	public static void main(String[] args) {
+		Scanner in=new Scanner(System.in);
+		MainLinkedList mall=new MainLinkedList(); 
+		ShoppingCartList c=new ShoppingCartList(mall);
+		
+		System.out.println("How many item you want to input : ");
+		int sz=in.nextInt();
+		
+		for(int i=0;i<sz;i++) {
+			System.out.println("Item number -" + (i+1) + "- :");
+			int stnum,q,p;
+			String id,name;
+			System.out.println("Item's Name : ");name=in.next();
+			System.out.println("Item's ID : ");id=in.next();
+			System.out.println("Item's Store Number : ");stnum=in.nextInt();
+			System.out.println("Item's Quantity : ");q=in.nextInt();
+			System.out.println("Item's price : ");p=in.nextInt();
+			ItemNode x=new ItemNode(name,id,p,q,stnum,null);
+			mall.Add(stnum,x);
+		}
+		System.out.println("\nMall's items : \n" + mall.toString());
+		
+		
+		System.out.println("Do you want to delete some items ? yes/no");
+		String ansd=in.next();
+		
+		if(ansd.equals("yes")){
+		System.out.println("How many item you want to delete : ");
+		int szd=in.nextInt();
+		for(int i=0;i<szd;i++) {
+			System.out.println("Item number -" + (i+1) + "- :");
+			int stnum;
+			String id,name;
+			System.out.println("Item's Name : ");name=in.next();
+			System.out.println("Item's ID : ");id=in.next();
+			System.out.println("Item's Store Number : ");stnum=in.nextInt();
+			StoreNode st=mall.searchstore(stnum);
+			st.store.deleteItem(id);
+		    }
+		}
+		System.out.println(" \nMall's items after delete unwanted items  : \n" + mall.toString());
+		
+		System.out.println("How many item you want to add to cart : ");
+		int count=in.nextInt();
+		for(int i=0;i<count;i++) {
+			String name,id;
+			int qq;
+			System.out.println("Item number -" + (i+1) + "- :");
+			System.out.println("What's your item's name : ");name=in.next();
+			System.out.println("Item's ID : ");id=in.next();
+			System.out.println("How much of "+ name + " would you like to add to cart : ");
+			qq=in.nextInt();
+			ItemNode x=mall.search(name, id);
+			if(x!=null)
+			c.addItem(x, qq);
+			else
+				System.out.println("can't add " + name + " to your cart, Can't find it!" );
+			
+		}
+		System.out.println("Your cart's items : \n" + c.toString());
+		
+		System.out.println("Do you want to return some items ? yes/no");
+		String ans=in.next();
+		if(ans.equals("yes")){
+			System.out.println("How many item you want to return from cart : ");
+			int countr=in.nextInt();
+			for(int i=0;i<countr;i++) {
+				String name;int qu;
+				System.out.println("Item number -" + (i+1) + "- :");
+				System.out.println("What's your item's name : ");
+				name=in.next();
+				System.out.println("How much would you like to return : ");
+				qu=in.nextInt();
+				c.returnItem(name, qu);
+			}
+			System.out.println("Your cart's items after return unwanted items : \n " + c.toString());
+		}
+		System.out.println("Would you like to confirm your purchase? yes/no");
+		String ans1=in.next();
+		if(ans1.equals("yes")){
+			System.out.println("Bill :" + mall.purchase() + "$ ");
+		}
+	
+		
+	}
+
+}
